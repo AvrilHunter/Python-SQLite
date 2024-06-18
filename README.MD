@@ -15,12 +15,16 @@
 
 ## Things Learnt
 Python basics and syntax
+
 How to create, seed and connect to a SQLite database
+
 How to install Flask to create application to connect to the database
+
 
 ### Next steps
 
 Endpoints to be added for GET, POST, PATCH and DELETE examples
+
 Error handling
 
 
