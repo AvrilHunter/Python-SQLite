@@ -12,6 +12,7 @@
 - Python
 - Flask
 - SQLite
+- Insomnia
 
 ## Things Learnt
 Python basics and syntax
