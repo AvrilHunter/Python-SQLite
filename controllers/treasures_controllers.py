@@ -20,4 +20,15 @@ def get_treasures_by_shop(shop_id):
     rows = c.fetchall()
     conn.close()
     return jsonify({'treasure':rows})
-    
+
+def post_treasure(treasure):
+    conn = sqlite3.connect("treasures.db")
+    c = conn.cursor()
+    sql = """INSERT INTO treasures
+		(treasure_name, colour, age, cost_at_auction, shop_id)
+		VALUES """ + treasure +";"
+    c.execute(sql)
+    conn.commit()
+    newID = c.lastrowid
+    conn.close()
+    return jsonify({"treasure":treasure})
