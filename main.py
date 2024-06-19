@@ -20,7 +20,7 @@ def show_shops():
         order = request.args.get("order")
         return shops.get_shops(order)
     
-@app.route("/api/treasures/<shop_id>")
+@app.route("/api/treasures/shop/<shop_id>")
 def treasures_by_shop(shop_id):
     if request.method=="GET":
         return treasure.get_treasures_by_shop(shop_id)
@@ -32,3 +32,8 @@ def treasures():
     if request.method=="POST":
         body = request.get_json()
         return treasure.post_treasure(body)
+
+@app.route("/api/treasures/<treasure_id>", methods=['GET'])
+def treasure_by_id(treasure_id):
+    if request.method =="GET":
+        return treasure.get_treasure_by_id(treasure_id)
