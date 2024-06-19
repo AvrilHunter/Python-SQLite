@@ -10,8 +10,10 @@ def home():
     return '''<p>Treasures API</p>
             <p>Endpoints available: </p>
             <p>GET: /api/treasures</p>
+            <p>POST: /api/treasures - takes request in format (treasure_name, colour, age, cost_at_auction, shop_id)</p>
+            <p>GET: /api/treasures/<treasure_id></p>
             <p>GET: /api/shops order by ASC/DESC</p>
-            <p>GET: /api/treasures/shop_id </p>
+            <p>GET: /api/treasures/shops/shop_id </p>
             '''
 
 @app.route("/api/shops")
@@ -20,7 +22,7 @@ def show_shops():
         order = request.args.get("order")
         return shops.get_shops(order)
     
-@app.route("/api/treasures/shop/<shop_id>")
+@app.route("/api/treasures/shops/<shop_id>")
 def treasures_by_shop(shop_id):
     if request.method=="GET":
         return treasure.get_treasures_by_shop(shop_id)
