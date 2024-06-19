@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 import sqlite3
 
 def get_treasures():
@@ -10,7 +10,8 @@ def get_treasures():
         conn.close()
         return jsonify({'treasures':rows})
     except sqlite3.OperationalError as e:
-        return {"error": e}
+        abort(400)
+        return jsonify({"error": "no such table exists"})
     
 def get_treasures_by_shop(shop_id):
     try:
@@ -52,3 +53,16 @@ def get_treasure_by_id(id):
     except sqlite3.OperationalError as e:
         return {"error": e}
     
+def delete_treasure(id):
+    try:
+        conn = sqlite3.connect("treasures.db")
+        c = conn.cursor()
+        sql = """DELETE FROM treasures WHERE treasure_id=? RETURNING *;"""
+        c.execute(sql, (id,))
+        rows = c.fetchall()
+        conn.commit()
+        conn.close()
+        return jsonify({'treasure':rows[0]})      
+    except sqlite3.Error as e:
+        print(e)
+        return "error"

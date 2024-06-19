@@ -1,7 +1,6 @@
-from flask import Flask, jsonify, request
-import controllers.treasures_controllers as treasure
+from flask import Flask, request
+import models.treasures_model as treasure
 import models.shops_model as shops
-import json
 
 app = Flask(__name__)
 
@@ -35,7 +34,9 @@ def treasures():
         body = request.get_json()
         return treasure.post_treasure(body)
 
-@app.route("/api/treasures/<treasure_id>", methods=['GET'])
+@app.route("/api/treasures/<treasure_id>", methods=['GET',"DELETE"])
 def treasure_by_id(treasure_id):
     if request.method =="GET":
         return treasure.get_treasure_by_id(treasure_id)
+    if request.method =="DELETE":
+        return treasure.delete_treasure(treasure_id)

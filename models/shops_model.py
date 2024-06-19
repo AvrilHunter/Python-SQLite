@@ -13,4 +13,4 @@ def get_shops(order):
         conn.close()
         return jsonify({'shops':rows})
     except sqlite3.OperationalError as e:
-        return {"error": 'table not found'}
+        return {"error": e}
