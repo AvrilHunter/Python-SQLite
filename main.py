@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, request
-import controllers.treasures_controllers as treasure
+from flask import Flask, request
+import models.treasures_model as treasure
 import models.shops_model as shops
-import json
+import re
 
 app = Flask(__name__)
 
@@ -35,7 +35,12 @@ def treasures():
         body = request.get_json()
         return treasure.post_treasure(body)
 
-@app.route("/api/treasures/<treasure_id>", methods=['GET'])
+@app.route("/api/treasures/<treasure_id>", methods=['GET',"DELETE"])
 def treasure_by_id(treasure_id):
+    is_valid = re.search("^[0-9]$",treasure_id)
+    if not is_valid:
+        return {"message":"id not valid"}, 404
     if request.method =="GET":
         return treasure.get_treasure_by_id(treasure_id)
+    if request.method =="DELETE":
+        return treasure.delete_treasure(treasure_id)
