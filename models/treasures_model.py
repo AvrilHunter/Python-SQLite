@@ -1,15 +1,17 @@
 from flask import jsonify, request
 import sqlite3
-
+import utils.utils as utils
 
 def get_treasures():
     try:
         conn = sqlite3.connect("treasures.db")
         c = conn.cursor()
-        c.execute("SELECT * FROM treasures;")
+        c.execute("SELECT treasure_id, treasure_name, colour, age, cost_at_auction, shop_id FROM treasures;")
         rows = c.fetchall()
+        headers = [i[0] for i in c.description]
         conn.close()
-        return jsonify({'treasures':rows})
+        treasures = utils.nested_list_to_dict(rows,headers)
+        return jsonify({'treasures':treasures})
     except sqlite3.OperationalError as e:
         return jsonify({"error": "bad request"}),400
     
@@ -17,11 +19,13 @@ def get_treasures_by_shop(shop_id):
     try:
         conn = sqlite3.connect("treasures.db")
         c = conn.cursor()
-        sql = "SELECT * FROM treasures WHERE shop_id = ?;"
+        sql = "SELECT treasure_id, treasure_name, colour, age, cost_at_auction, shop_id FROM treasures WHERE shop_id = ?;"
         c.execute(sql, (shop_id,))
         rows = c.fetchall()
+        headers = [i[0] for i in c.description]
         conn.close()
-        return jsonify({'treasure':rows})
+        treasures = utils.nested_list_to_dict(rows,headers)
+        return jsonify({'treasure':treasures})
     except sqlite3.OperationalError as e:
         return jsonify({"error": "bad request"}),400
 
@@ -45,11 +49,13 @@ def get_treasure_by_id(id):
     try:
         conn = sqlite3.connect("treasures.db")
         c = conn.cursor()
-        sql = "SELECT * FROM treasures WHERE treasure_id=?;"
+        sql = "SELECT treasure_id, treasure_name, colour, age, cost_at_auction, shop_id FROM treasures WHERE treasure_id=?;"
         c.execute(sql, (id,))
         rows = c.fetchall()
+        headers = [i[0] for i in c.description]
         conn.close()
-        return jsonify({'treasure':rows[0]})
+        treasure = utils.list_to_dict(rows[0],headers)
+        return jsonify({'treasure':treasure})
     except sqlite3.OperationalError as e:
         return jsonify({"error": "bad request"}),400
     except IndexError:
@@ -62,9 +68,11 @@ def delete_treasure(id):
         sql = """DELETE FROM treasures WHERE treasure_id=? RETURNING *;"""
         c.execute(sql, (id,))
         rows = c.fetchall()
+        headers =[item[0] for item in c.description]
         conn.commit()
         conn.close()
-        return jsonify({'treasure':rows[0]})      
+        treasure = utils.nested_list_to_dict(rows, headers)
+        return jsonify({'treasure':treasure})      
     except sqlite3.OperationalError as e:
         return jsonify({"error": "bad request"}),400
     except IndexError:

@@ -1,7 +1,6 @@
 from flask import Flask, request
 import models.treasures_model as treasure
 import models.shops_model as shops
-import re
 
 app = Flask(__name__)
 
@@ -48,9 +47,6 @@ def treasures():
 
 @app.route("/api/treasures/<int:treasure_id>", methods=['GET',"DELETE"])
 def treasure_by_id(treasure_id):
-    is_valid = re.search("^[0-9]$",str(treasure_id))
-    if not is_valid:
-        return {"message":"id not valid"}, 404
     if request.method =="GET":
         return treasure.get_treasure_by_id(str(treasure_id))
     if request.method =="DELETE":

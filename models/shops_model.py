@@ -1,5 +1,6 @@
 import sqlite3
 from flask import jsonify
+import utils.utils as utils
 
 def get_shops(order):
     if not order:
@@ -13,8 +14,10 @@ def get_shops(order):
         ORDER BY shop_name """ + order +";"
         c.execute(sql)
         rows = c.fetchall()
+        headers = [item[0] for item in c.description]
+        shops = utils.nested_list_to_dict(rows, headers)
         conn.close()
-        return jsonify({'shops':rows})
+        return jsonify({'shops':shops})
     except sqlite3.OperationalError as e:
         return {"error": "bad request"},400
 
@@ -29,8 +32,10 @@ def get_shop_by_id(shop_id):
         WHERE shop_id=""" + shop_id +";"
         c.execute(sql)
         rows = c.fetchall()
+        headers = [i[0] for i in c.description]
         conn.close()
-        return jsonify({'shop':rows[0]})
+        shop = utils.list_to_dict(rows[0],headers)
+        return jsonify({'shop':shop})
     except sqlite3.OperationalError as e:
         return {"error": "bad request"}, 400
     except IndexError:
