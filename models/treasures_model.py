@@ -42,7 +42,6 @@ def post_treasure(treasure):
         return jsonify({"error": "bad request"}),400
 
 def get_treasure_by_id(id):
- 
     try:
         conn = sqlite3.connect("treasures.db")
         c = conn.cursor()
