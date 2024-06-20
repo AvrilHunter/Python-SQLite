@@ -1,11 +1,15 @@
-# SQLite Database created with Flask and Python
+# Python Backend Project
+
+## REST API created to connect to SQLite Database using Flask and Python
 
 ## Set Up
-1. Create virtual environment ```python3 -m venv .venv```
-2. Activate environment ```. .venv/bin/activate```
-2. Install Flask ```pip install Flask```
-3. Seed database ```python3 seeding.py```
-4. Run application ```flask --app main.py  run --debug```
+
+1. Create virtual environment `python3 -m venv .venv`
+2. Activate environment `. .venv/bin/activate`
+3. Install Flask `pip install Flask`
+4. Seed database `python3 seeding.py`
+5. Run application `flask --app main.py  run --debug`
+6. Summary of endpoints available on `"/"`
 
 ## Technologies used
 
@@ -13,21 +17,27 @@
 - Flask
 - SQLite
 - Insomnia
+- Pytest
 
-## Things Learnt
-Python basics and syntax
+## Skills Used
 
-How to create, seed and connect to a SQLite database
+- Learnt Python syntax
 
-How to install Flask to create application to connect to the database
+- Created, seeded and connected to a SQLite database
 
+- Used Flask to create an application to connect to the database
 
-### Next steps
+- Pytest to test util functions
 
-Endpoints to be added for GET, POST, PATCH and DELETE examples
+- Basic error handling
 
-Error handling
+- Used Insomnia to test endpoint responses
 
+### CRUD Application
 
+Endpoints available to:
 
-
+- GET
+- PATCH
+- POST
+- DELETE
