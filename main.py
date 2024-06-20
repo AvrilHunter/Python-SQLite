@@ -14,7 +14,8 @@ def home():
             <p>DELETE: /api/treasures/<treasure_id></p>
             <p>GET: /api/shops queries available - order by ASC/DESC</p>
             <p>GET: /api/shops/<shop_id> </p>
-            <p>PATCH: /api/shops/<shop_id> </p>
+            <p>PATCH: /api/shops/<shop_id> Can update slogan -body example {"slogan": "new-slogan"}
+            </p>
             <p>GET: /api/treasures/shops/<shop_id> </p>
             '''
 
@@ -30,7 +31,7 @@ def shop_by_id(shop_id):
         return shops.get_shop_by_id(str(shop_id))
     if request.method =="PATCH":
         body = request.get_json()
-        return shops.update_shop(str(shop_id), body["slogan"])
+        return shops.update_shop(str(shop_id), body)
     
 @app.route("/api/treasures/shops/<int:shop_id>")
 def treasures_by_shop(shop_id):

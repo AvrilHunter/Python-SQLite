@@ -1,6 +1,7 @@
 from flask import jsonify, request
 import sqlite3
 import utils.utils as utils
+import json
 
 def get_treasures():
     try:
@@ -30,12 +31,13 @@ def get_treasures_by_shop(shop_id):
         return jsonify({"error": "bad request"}),400
 
 def post_treasure(treasure):
+    treasure_tuple = tuple((treasure["treasure_name"],treasure["colour"],treasure["age"],treasure["cost_at_auction"],treasure["shop_id"]))
     try:
         conn = sqlite3.connect("treasures.db")
         c = conn.cursor()
         sql = """INSERT INTO treasures
             (treasure_name, colour, age, cost_at_auction, shop_id)
-            VALUES """ + treasure +";"
+            VALUES """ + str(treasure_tuple) +";"
         c.execute(sql)
         conn.commit()
         newID = c.lastrowid

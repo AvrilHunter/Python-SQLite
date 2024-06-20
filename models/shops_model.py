@@ -43,13 +43,14 @@ def get_shop_by_id(shop_id):
 
 def update_shop(shop_id, body):
    try:
+        slogan = body["slogan"]
         conn = sqlite3.connect("treasures.db")
         c= conn.cursor()
         sql = """
         UPDATE shops
         SET slogan =?
         WHERE shop_id = ?;"""
-        c.execute(sql, (body, shop_id))
+        c.execute(sql, (slogan, shop_id))
         conn.commit()
         conn.close()
         new_shop =get_shop_by_id(str(shop_id))
@@ -58,4 +59,6 @@ def update_shop(shop_id, body):
        return {"error": "bad request"}, 400
    except IndexError:
         return {"message":"shop does not exist"}, 404
+   except KeyError:
+       return{"message":"can't update that field"},400
     
