@@ -9,6 +9,7 @@
 3. Install Flask `pip install Flask`
 4. Seed database `python3 seeding.py`
 5. Run application `flask --app main.py  run --debug`
+6. Or run flask run
 6. Summary of endpoints available on `"/"`
 
 ## Technologies used
